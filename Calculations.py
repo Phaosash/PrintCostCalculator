@@ -1,4 +1,5 @@
 class CostCalculations:
+    #   Default constructor.
     def __init__(self, raw_material_cost_per_unit: float, raw_electricity_cost_per_kWH: float):
         self.material_cost_per_unit = raw_material_cost_per_unit
         self.electricity_cost_per_kWH = raw_electricity_cost_per_kWH
