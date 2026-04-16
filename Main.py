@@ -12,7 +12,7 @@ calculations_instance = CostCalculations(material_cost_per_kg, electricity_cost_
 
 #   This function is used to get the total cost of the material used for the printed part
 def get_material_cost () -> float:
-    printed_weight = float(18.93)
+    printed_weight = float(67.44)
     additional_materials = float(0.0)
     division_amount = float(1000)
 
@@ -21,7 +21,7 @@ def get_material_cost () -> float:
 #   This function is used to get the total cost of the electricity useage for the printed part
 #   print_time format = hours.minutes (e.g. 1.45 would be 1 hour and 45 minutes).
 def get_electricity_cost () -> float:
-    print_time = float(0.45)
+    print_time = float(1.21)
     printer_wattage = float(350)
     division_amount = float(1000)
 
