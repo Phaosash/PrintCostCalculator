@@ -1,8 +1,30 @@
+import math
+
 class CostCalculations:
     #   Default constructor.
-    def __init__(self, raw_material_cost_per_unit: float, raw_electricity_cost_per_kWH: float):
-        self.material_cost_per_unit = raw_material_cost_per_unit
-        self.electricity_cost_per_kWH = raw_electricity_cost_per_kWH
+    def __init__(self):
+        self.material_cost_per_unit = float(0.0)
+        self.electricity_cost_per_kWH = float(0.0)
+
+    #   This function is used to set the value for the electrical usage cost.
+    def set_electrical_cost_per_kWH (self, kwh_amount: float):
+        if kwh_amount is None:
+            raise ValueError("Electricity cost cannot be None.")
+
+        if math.isnan(kwh_amount) or kwh_amount <= 0:
+            raise ValueError("Electricity cost must be greater than zero.")
+
+        self.electricity_cost_per_kwh = kwh_amount
+
+    #   This function is used to set the value for the material unit cost.
+    def set_material_cost_per_unit (self, material_cost: float):
+        if material_cost is None:
+            raise ValueError("Material cost cannot be None.")
+
+        if math.isnan(material_cost) or material_cost <=0:
+            raise ValueError("Material cost must be greater than zero.")
+
+        self.material_cost_per_unit = material_cost
 
     #   This function is used to calculate the material usage cost of a printed part
     #   estimated_printed_weight_in_grams = the final weight of the printed piece (aka how much it will way)

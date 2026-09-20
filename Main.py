@@ -4,15 +4,12 @@ from Calculations import CostCalculations
 #   (e.g. 1Kg of Elegoo PLA filament in AUD is $50 from Elegoo).
 material_cost_per_kg = float(50)
 
-#   This should be used to help offset the cost of printing the part if its later sold.
-electricity_cost_per_kWH = float(0.30)
-
 #   This is used to create an instance of the cost calculations class.
-calculations_instance = CostCalculations(material_cost_per_kg, electricity_cost_per_kWH)
+calculations_instance = CostCalculations()
 
 #   This function is used to get the total cost of the material used for the printed part
 def get_material_cost () -> float:
-    printed_weight = float(67.44)
+    printed_weight = float(0.37)
     additional_materials = float(0.0)
     division_amount = float(1000)
 
@@ -24,8 +21,23 @@ def get_electricity_cost () -> float:
     print_time = float(1.21)
     printer_wattage = float(350)
     division_amount = float(1000)
+    electricity_cost_per_kWH = get_float_input_from_user("Please enter the cost per kWH of print time: ")
+
+    try:
+        calculations_instance.set_electrical_cost_per_kWH(electricity_cost_per_kWH)
+    except ValueError as e:
+        print(f"Could not set electricity cost: {e}")
 
     return calculations_instance.calculate_electricity_usage_cost(print_time, printer_wattage, division_amount)
+
+def get_float_input_from_user(prompt: str):
+    is_valid_prompt = bool(False)
+    while not is_valid_prompt:
+        try:
+            return float(input(prompt))
+        except ValueError:
+            print("Invalid Input. Please enter a valid number")
+
 
 #   Outputs the material cost
 print(f'Total material cost = {get_material_cost()}')
