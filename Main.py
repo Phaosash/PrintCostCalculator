@@ -1,8 +1,10 @@
 from MaterialCost import MaterialCosts
 from ElecticityCost import ElectricityCosts
+from LabourCosts import LabourCostings
 
 material_cost_instance = MaterialCosts()
 electricity_cost_instance = ElectricityCosts()
+labour_cost_instance = LabourCostings()
 
 #   This method is used to generate the total cost of the materials for the print
 def generate_material_cost () -> float:    
@@ -20,6 +22,13 @@ def generate_electricity_cost () -> float:
 
     return float(electricity_cost_instance.get_total_energy_cost())
 
+#   This method is used to generate the cost of the users labour
+def generate_labour_cost () -> float:
+    labour_cost_instance.set_hourly_rate(get_float_input_from_user("Please enter your hourly rate: "))
+    labour_cost_instance.set_preperation_time(get_float_input_from_user("How many mintues does is take to prep each object after printing? "))
+
+    return float(labour_cost_instance.get_labour_cost())
+
 #   This method is used to get a float input from the user
 def get_float_input_from_user (prompt: str):
     is_valid_prompt = bool(False)
@@ -33,4 +42,7 @@ def get_float_input_from_user (prompt: str):
 print(f'Total material cost = {generate_material_cost()}')
 
 #   Outputs the enegy usage cost
-print(f"Total Electricity Cost = {generate_electricity_cost()}")
+print(f"Total electricity Cost = {generate_electricity_cost()}")
+
+#   Outputs the labour cost
+print(f"Total labour cost = {generate_labour_cost()}")
