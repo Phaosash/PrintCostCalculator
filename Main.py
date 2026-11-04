@@ -1,36 +1,27 @@
-from Calculations import CostCalculations
+from MaterialCost import MaterialCosts
+from ElecticityCost import ElectricityCosts
 
-#   Use this for the total cost of a full spoll or bottle of either filament or resin 
-#   (e.g. 1Kg of Elegoo PLA filament in AUD is $50 from Elegoo).
-material_cost_per_kg = float(50)
+material_cost_instance = MaterialCosts()
+electricity_cost_instance = ElectricityCosts()
 
-#   This is used to create an instance of the cost calculations class.
-calculations_instance = CostCalculations()
+#   This method is used to generate the total cost of the materials for the print
+def generate_material_cost () -> float:    
+    material_cost_instance.set_material_cost(get_float_input_from_user("Please enter the cost per kg for the material: "))
+    material_cost_instance.set_estimated_weight(get_float_input_from_user("Please enter the estimated weigh of the final print: "))
+    material_cost_instance.set_additional_expenses(get_float_input_from_user("Please enter the value for an extra expenses like screws, if none enter 0: "))
 
-#   This function is used to get the total cost of the material used for the printed part
-def get_material_cost () -> float:
-    printed_weight = float(0.37)
-    additional_materials = float(0.0)
-    division_amount = float(1000)
+    return float(material_cost_instance.get_total_material_cost())
 
-    return calculations_instance.calculate_cost_of_material_used(printed_weight, additional_materials, division_amount)
+#   This method is used to generate the cost of electricity usage for the print
+def generate_electricity_cost () -> float:
+    electricity_cost_instance.set_print_time(get_float_input_from_user("Please enter the estimated print time. e.g 6.5 is 6 hrs and 50 minutes: "))
+    electricity_cost_instance.set_energy_cost(get_float_input_from_user("Please enter your cost per kWH for each hour of print time. e.g 0.30 is 30 cents per hours: "))
+    electricity_cost_instance.set_printer_wattage(get_float_input_from_user("Please enter the power wattage of your printer: "))
 
-#   This function is used to get the total cost of the electricity useage for the printed part
-#   print_time format = hours.minutes (e.g. 1.45 would be 1 hour and 45 minutes).
-def get_electricity_cost () -> float:
-    print_time = float(1.21)
-    printer_wattage = float(350)
-    division_amount = float(1000)
-    electricity_cost_per_kWH = get_float_input_from_user("Please enter the cost per kWH of print time: ")
+    return float(electricity_cost_instance.get_total_energy_cost())
 
-    try:
-        calculations_instance.set_electrical_cost_per_kWH(electricity_cost_per_kWH)
-    except ValueError as e:
-        print(f"Could not set electricity cost: {e}")
-
-    return calculations_instance.calculate_electricity_usage_cost(print_time, printer_wattage, division_amount)
-
-def get_float_input_from_user(prompt: str):
+#   This method is used to get a float input from the user
+def get_float_input_from_user (prompt: str):
     is_valid_prompt = bool(False)
     while not is_valid_prompt:
         try:
@@ -38,12 +29,8 @@ def get_float_input_from_user(prompt: str):
         except ValueError:
             print("Invalid Input. Please enter a valid number")
 
-
 #   Outputs the material cost
-print(f'Total material cost = {get_material_cost()}')
+print(f'Total material cost = {generate_material_cost()}')
 
-#   Outputs the electricity cost
-print(f'Total electricity usage cost = {get_electricity_cost()}')
-
-#   Ouputs the entire cost of the print
-print(f'Total print cost = ${get_material_cost() + get_electricity_cost()}')
+#   Outputs the enegy usage cost
+print(f"Total Electricity Cost = {generate_electricity_cost()}")
